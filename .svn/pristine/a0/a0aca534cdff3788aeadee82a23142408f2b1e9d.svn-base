@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzxy.robot.dao.PermissionMapper">
+
+
+
+    <select id="getAllPermission" resultType="com.hzxy.robot.entity.SysPermission">
+        SELECT * FROM  SYS_PERMISSION
+    </select>
+
+    <select id="getPermissionbyUsername"  resultType="com.hzxy.robot.entity.SysPermission">
+SELECT PID id,  NAME name, PERMISSION permission, URL url FROM SYS_PERMISSION
+  WHERE PID in(
+    SELECT PID FROM SYS_ROLE_PERMISSION WHERE ROLE_ID in(
+      SELECT ROLE_ID FROM SYS_USER_ROLE  WHERE UID = (SELECT UID FROM USER_INFO WHERE USERNAME = #{username})
+    )
+  )
+ </select>
+
+
+
+</mapper>

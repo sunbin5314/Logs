@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzxy.robot.dao.LoginInfoMapper">
+    <select id="getLoginInfo" resultType="com.hzxy.robot.entity.LoginInfo">
+        SELECT * FROM SYS_LOGININFO
+    </select>
+    <insert id="insertLoginLog" parameterType="com.hzxy.robot.entity.LoginInfo">
+        INSERT INTO SYS_LOGININFO (infoId,loginName,ipaddr,browser,os,loginTime) VALUES
+        (#{infoId},#{loginName},#{ipaddr},#{browser},#{os},#{loginTime})
+    </insert>
+    <delete id="deleteLoginLogs">
+        DELETE FROM SYS_LOGININFO WHERE infoId = #{infoId}
+    </delete>
+    <select id="selectByConditon" parameterType="com.hzxy.robot.entity.LoginInfo"
+            resultType="com.hzxy.robot.entity.LoginInfo">
+        SELECT * FROM SYS_LOGININFO WHERE loginName LIKE CONCAT ("%",#{loginName},"%")
+    </select>
+</mapper>

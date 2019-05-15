@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link>
+    <meta charset="UTF-8">
+    <!--<meta name="viewport" content="width=device-width,initial-scale=1">-->
+    <title>操作日志列表</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/statics/css/bootstrap.min.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/statics/css/bootstrap-datetimepicker.min.css}">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
+    <script type="text/javascript" th:src="@{/statics/js/jquery-3.3.1.min.js}">
+    </script>
+    <script type="text/javascript" th:href="@{/statics/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:href="@{/statics/js/bootstrap-datetimepicker.js}" charset="UTF-8"></script>
+    <script type="text/javascript" th:href="@{/statics/js/bootstrap-datetimepicker.zh-CN.js}" charset="UTF-8"></script>
+<!--------------->
+</head>
+<body class="container">
+        <form th:action="@{/openLog/selectByConditon}" method="post">
+            <div>
+            <label>操作内容：</label><input type="text" name="title">
+            <label>操作人员</label><input type="text" name="operName">
+            </div>
+            <!--------------------------------------------------->
+
+            <!--------------------------------------------------->
+            <input type="submit" value="查询">
+        </form>
+    <div class="container">
+        <form th:action="@{/openLog/deleteLogsCondition}" method="post">
+        <button type="submit" class="button border-red"><span class="icon-trash-o"></span> 批量删除</button>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                       <input type="checkbox" id="selectAll"/>
+                    </th>
+                    <th>日志编号</th>
+                    <th>操作模块</th>
+                    <th>操作人员</th>
+                    <th>操作方法</th>
+                    <th>用户IP</th>
+                    <th>请求路径</th>
+                  <!--  <th>方法参数</th>-->
+                    <th>操作时间</th>
+                </tr>
+                <tr th:each="openLog : ${pageInfo.list}">
+                    <td>
+                        <input type="checkbox" id="check" name="operIds" th:value="${openLog.getOperId()}"/>
+                    </td>
+                    <td th:text="${openLog.getOperId()}" >日志编号</td>
+                    <td th:text="${openLog.getTitle()}">操作模块</td>
+                    <td th:text="${openLog.getOperName()}">操作人员</td>
+                    <td th:text="${openLog.getMethod()}">操作方法</td>
+                    <td th:text="${openLog.getOperIp()}">用户IP</td>
+                    <td th:text="${openLog.getOperUrl()}">请求路径</td>
+                   <!-- <td th:text="${openLog.getOperParam()}">方法参数</td>-->
+                    <td th:text="${openLog.getOperTime()}">操作时间</td>
+                </tr>
+            </thead>
+        </table>
+            <div class="clearfix">
+                <ul class="pagination m-b-5 pull-right">
+                    <li th:if="${pageInfo.hasPreviousPage}"><a
+                            th:href="@{/openLog/selectByConditon(pageNum=${pageInfo.prePage},title=${openLog.getTitle()},operName=${openLog.getOperName()})}"
+                            aria-label="Previous"> <i class="fa fa-angle-left"></i>&nbsp;上一页
+                    </a></li>
+                    <th:block th:each="nav : ${pageInfo.navigatepageNums}">
+                        <li th:class="${nav==pageInfo.pageNum}?'active':''"><a
+                                th:href="@{/openLog/selectByConditon(pageNum=${nav},title=${openLog.getTitle()},operName=${openLog.getOperName()})}"
+                                th:text="${nav}"></a></li>
+                    </th:block>
+                    <th:block th:if="${pageInfo.hasNextPage}">
+                        <li><a
+                                th:href="@{/openLog/selectByConditon(pageNum=${pageInfo.nextPage},title=${openLog.getTitle()},operName=${openLog.getOperName()})}"
+                                aria-label="Next"> 下一页&nbsp;<i class="fa fa-angle-right"></i>
+                        </a></li>
+                    </th:block>
+                    <li><span th:text="'共'+${pageInfo.pages}+'页'"></span></li>
+                </ul>
+            </div>
+        </form>
+    </div>
+</body>
+<script type="text/javascript">
+    /*
+    * 全选
+    * */
+    $(function(){
+        $("#selectAll").bind("click",function(){
+            if($(this).prop("checked")){
+                $("input[type='checkbox']").not(this).prop("checked",true); }
+                else{
+                    $("input[type='checkbox']").not(this).prop("checked",false);
+                }
+        });
+    });
+</script>
+</html>

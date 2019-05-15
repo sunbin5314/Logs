@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzxy.robot.dao.RobotMapper">
+
+    <select id="getRobots"  resultType="com.hzxy.robot.entity.RobotInfo">
+        SELECT * FROM ROBOT_INFO
+    </select>
+
+    <insert id="addRobot" parameterType="com.hzxy.robot.entity.RobotInfo" useGeneratedKeys="true" keyProperty="RID">
+        INSERT INTO ROBOT_INFO (RID,NAME,POSITION,TYPE,DESCRIPTION) VALUES (#{rid},#{name},#{position},#{type},#{description})
+    </insert>
+
+    <delete id="deleteRobot" parameterType="com.hzxy.robot.entity.RobotInfo">
+        DELETE  FROM ROBOT_INFO WHERE RID = #{rid}
+    </delete>
+
+    <update id="modRobot" parameterType="com.hzxy.robot.entity.RobotInfo">
+        UPDATE  ROBOT_INFO SET NAME = #{name},POSITION = #{position},TYPE = #{type},DESCRIPTION=#{description} WHERE RID =#{rid}
+    </update>
+
+</mapper>

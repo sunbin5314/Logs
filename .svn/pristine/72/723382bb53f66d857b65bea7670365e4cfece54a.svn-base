@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzxy.robot.dao.UserMapper">
+ 
+ <select id="getUserbyName" resultType="com.hzxy.robot.entity.UserInfo">
+   SELECT UID id, USERNAME username, PASSWORD password from USER_INFO where USERNAME =#{userName}
+ </select>
+ 
+ <select id="getPasswordbyName">
+   SELECT USER_PWD FROM USER_INFO WHERE USER_NAME = "admin"
+ </select>
+ 
+</mapper>

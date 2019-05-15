@@ -1,0 +1,70 @@
+package com.hzxy.robot.controller;
+
+import com.hzxy.robot.entity.RobotInfo;
+import com.hzxy.robot.entity.UserInfo;
+import com.hzxy.robot.service.RobotServiceImpl;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.hzxy.robot.service.UserServiceImpl;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/robotInfo")
+public class RobotController {
+
+	@Autowired
+	private UserServiceImpl userServiceImpl;
+	@Autowired
+	private RobotServiceImpl robotService;
+
+	@ResponseBody
+	@RequestMapping("/all")
+	public UserInfo list(String userName) {
+		UserInfo user = userServiceImpl.getUserbyName(userName);
+		System.out.println(user.getUsername());
+		return user;
+	}
+
+	/**
+	 * 机器人查询.
+	 * @return
+	 */
+	@RequestMapping("/robotList")
+//	@RequiresPermissions("robotInfo:view")//权限管理;
+	public List<RobotInfo> getRobots(String id, String position){
+
+		System.out.println("机器人查询");
+		return robotService.getRobots(id,position);
+	}
+
+	/**
+	 * 机器人添加;
+	 * @return
+	 */
+	@RequestMapping("/robotAdd")
+//	@RequiresPermissions("robotInfo:add")//权限管理;
+	public void robotAdd(String robotname,String position,String type,String description){
+		RobotInfo robot = new RobotInfo();
+		robot.setName(robotname);
+		robot.setPosition(position);
+		robot.setType(type);
+		robot.setDescription(description);
+		System.out.println(robot.toString());
+		robotService.addRobot(robot);
+	}
+
+	/**
+	 * 用户删除;
+	 * @return
+	 */
+	@RequestMapping("/robotDel")
+//	@RequiresPermissions("robotInfo:del")//权限管理;
+	public String userDel(){
+		return "userInfoDel";
+	}
+}

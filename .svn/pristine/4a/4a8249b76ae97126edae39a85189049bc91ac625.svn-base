@@ -1,0 +1,19 @@
+
+spring.datasource.url = jdbc:mysql://192.168.0.99:3306/test?characterEncoding=utf8&useSSL=true
+spring.datasource.username = root
+spring.datasource.password = 111111
+spring.datasource.driver-class-name= com.mysql.jdbc.Driver
+
+#mybatis配置信息
+mybatis.config-locations=classpath:mybatis/mybatis-config.xml
+mybatis.mapper-locations=classpath:mybatis/mapper/*.xml
+#加入thymeleaf 的pom依赖后 默认的静态根目录变成了templates
+#spring.thymeleaf.prefix=/templates/
+#spring.thymeleaf.mode=LEGACYHTML5
+
+##热部署生效
+#spring.devtools.restart.enabled: true
+##设置重启的目录
+##spring.devtools.restart.additional-paths: src/main/java
+##classpath目录下的WEB-INF文件夹内容修改不重启
+#spring.devtools.restart.exclude: WEB-INF/**

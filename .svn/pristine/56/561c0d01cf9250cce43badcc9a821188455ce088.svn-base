@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>index.html</title>
+    <link href="statics/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="statics/css/bootstrap-table.min.css" rel="stylesheet"/>
+    <link href="statics/css/mycss.css" rel="stylesheet"/>
+    <!--    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">-->
+</head>
+<body>
+<!-- table  查询出所以机器人信息，可以根据条件查询-->
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a data-toggle="tab" href="#home">机器人管理</a>
+        </li>
+        <li><a data-toggle="tab" href="#menu1">机器人参数配置</a></li>
+        <li><a data-toggle="tab" href="#menu2">用户权限</a></li>
+        <li><a data-toggle="tab" href="#menu3">菜单权限</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="home" class="panel-body tab-pane fade in active">
+            <div class="panel panel-default">
+                <div class="panel-heading">查询条件</div>
+                <div class="panel-body">
+                    <form id="formSearch" class="form-horizontal">
+                        <div class="form-group" style="margin-top:15px">
+                            <label class="control-label col-sm-1" for="txt_search_departmentname">现 场</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="txt_search_departmentname"
+                                       placeholder="请输入现场">
+                            </div>
+                            <label class="control-label col-sm-1" for="txt_search_statu">id</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="txt_search_statu" placeholder="请输入id">
+                            </div>
+                            <div class="col-sm-4" style="text-align:left;">
+                                <button type="button" style="margin-left:50px" id="btn_query" class="btn btn-primary">
+                                    查询
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+            <div id="toolbar" class="btn-group "><!--.show 显示 .hidden隐藏-->
+                <button id="btn_add" type="button" class="btn btn-default" data-toggle="modal" data-target="#addModal">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加
+                </button>
+                <button id="btn_edit" type="button" class="btn btn-default" data-toggle="modal" data-target="#revModal">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
+                </button>
+                <button id="btn_delete" type="button" class="btn btn-default" data-toggle="modal"
+                        data-target="#delModal">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+                </button>
+            </div>
+            <table id="tb_departments"></table>
+            <!--         <div class="row" style="margin-top: 20px; width:100%;">-->
+            <!--           <table class="table table-striped table-bordered table-hover" id="tableL01"></table>    &lt;!&ndash;表格&ndash;&gt;-->
+            <!--         </div>-->
+        </div>
+
+        <div id="menu1" class="tab-pane fade">
+            <h3>机器人参数修改</h3>
+            <p>这是菜单 1 显示的内容。这是菜单 1 显示的内容。这是菜单 1 显示的内容。</p>
+        </div>
+        <div id="menu2" class="tab-pane fade">
+            <h3>菜单 2</h3>
+            <p>这是菜单 2 显示的内容。这是菜单 2 显示的内容。这是菜单 2 显示的内容。</p>
+        </div>
+        <div id="menu3" class="tab-pane fade">
+            <h3>菜单 3</h3>
+            <p>这是菜单 3 显示的内容。这是菜单 3 显示的内容。这是菜单 3 显示的内容。</p>
+        </div>
+    </div>
+
+
+    <!--Model 模态框-->
+    <!--添加框-->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header"><!--设置模态框头部信息-->
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        添加机器人信息
+                    </h4>
+                </div>
+                <div class="modal-body"> <!--设置模态框主体信息-->
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="robotname" class="col-md-2 control-label">名 称</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="robotname" name="robotname" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="position" class="col-md-2 control-label">位 置</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="position" name="position" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="type" class="col-md-2 control-label">类 型</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="type" name="type" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="col-md-2 control-label">描 述</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="description" name="description" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer"><!--设置模态框底部信息-->
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="addRobot">
+                        添加
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    <!--修改框-->
+    <div class="modal fade" id="revModal" tabindex="-1" role="dialog" aria-labelledby="revModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header"><!--设置模态框头部信息-->
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="revModalLabel"><!--  模态框（Modal）标题-->
+                       修改机器人信息
+                    </h4>
+                </div>
+                <div class="modal-body"> <!--设置模态框主体信息-->
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="revname" class="col-md-2 control-label">名 称</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="revname" name="revname" required>
+<!--                                <p class="text-info" id="oldname" name="oldname">该段落使用了样式 "text-info"。</p>-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="revposition" class="col-md-2 control-label">位 置</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="revposition" name="revposition" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="revtype" class="col-md-2 control-label">类 型</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="revtype" name="revtype" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="revdescription" class="col-md-2 control-label">描 述</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="revdescription" name="revdescription" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer"><!--设置模态框底部信息-->
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="revRobot">
+                        提交
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+
+</div>
+<script type="text/javascript" src="statics/js/jquery.min.js"></script>
+<script type="text/javascript" src="statics/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="statics/js/bootstrap-table.js"></script>
+<script type="text/javascript" src="statics/js/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="statics/js/myscript.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzxy.robot.dao.OpenLogMapper">
+    <!--添加操作日志-->
+    <insert id="insertOpenLog" parameterType="com.hzxy.robot.entity.OpenLog">
+        INSERT INTO SYS_OPENLOG (operId,title,method,operName,operUrl,operIp,operParam,operTime) VALUES
+        (#{operId},#{title},#{method},#{operName},#{operUrl},#{operIp},#{operParam},#{operTime})
+    </insert>
+    <!--查询所有操作日志-->
+    <select id="findAllOpenLogs" resultType="com.hzxy.robot.entity.OpenLog">
+        SELECT * FROM SYS_OPENLOG
+    </select>
+    <delete id="deleteOpenLogs">
+        DELETE FROM SYS_OPENLOG WHERE operId = #{operId}
+    </delete>
+    <!--条件查询-->
+    <select id="selectByConditon" parameterType="com.hzxy.robot.entity.OpenLog"
+            resultType="com.hzxy.robot.entity.OpenLog">
+          SELECT * FROM SYS_OPENLOG
+          <where>
+              <if test="title != null and title != ''">
+                  AND title LIKE CONCAT("%",#{title},"%")
+              </if>
+              <if test="operName != null and operName != ''">
+                  AND operName LIKE CONCAT ("%",#{operName},"%")
+              </if>
+          </where>
+    </select>
+</mapper>

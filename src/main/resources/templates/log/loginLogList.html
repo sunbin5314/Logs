@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录日志查询</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/statics/css/bootstrap.min.css}" media="screen">
+    <link type="text/css" rel="stylesheet" th:href="@{/statics/css/bootstrap-datetimepicker.min.css}" media="screen">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
+    <script type="text/javascript" th:src="@{/statics/js/jquery-3.3.1.min.js}">
+    </script>
+    <script type="text/javascript" th:href="@{/statics/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:href="@{/statics/js/bootstrap-datetimepicker.js}" charset="UTF-8"></script>
+    <script type="text/javascript" th:href="@{/statics/js/bootstrap-datetimepicker.zh-CN.js}" charset="UTF-8"></script>
+
+</head>
+<body class="container">
+    <form th:action="@{/loginLog/selectByConditon}"  method="post">
+        登录人员:<input type="text" name="loginName">
+        </div>
+        <input type="submit" value="查询">
+        </form>
+<div>
+    <button type="submit"  onclick="delAll()" class="button border-red"><span class="icon-trash-o"></span>
+        批量删除</button>
+    <table class="table table-striped table-hover table-bordered" border="1" cellspacing="0">
+        <thead>
+        <tr>
+            <th>
+            <input type="checkbox" id="selectAll"/>
+            </th>
+            <th>日志编号</th>
+            <th>登录人员</th>
+            <th>用户IP</th>
+            <th>浏览器类型</th>
+            <th>操作系统</th>
+            <th>登录时间</th>
+        </tr>
+        <tr th:each="loginLog : ${pageInfo.list}">
+            <td>
+                <input type="checkbox" id="check" name="infoIds" th:value="${loginLog.getInfoId()}"/>
+            </td>
+            <td th:text="${loginLog.getInfoId()}" >日志编号</td>
+            <td th:text="${loginLog.getLoginName()}" >登录人员</td>
+            <td th:text="${loginLog.getIpaddr()}" >用户IP</td>
+            <td th:text="${loginLog.getBrowser()}" >浏览器类型</td>
+            <td th:text="${loginLog.getOs()}" >操作系统</td>
+            <td th:text="${loginLog.getLoginTime()}" >登录时间</td>
+        </tr>
+        </thead>
+    </table>
+    <!--<div align="center">
+        <p>当前<span th:text="${pageInfo.pageNum}"></span>页,总<span th:text="${pageInfo.pages}"></span>页,
+            总<span th:text="${pageInfo.total}"></span>条记录</p>
+        <a th:href="@{/loginLog/pageList}">首页</a>
+        <a th:href="@{/loginLog/pageList(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">上一页</a>
+        <a th:href="@{/loginLog/pageList(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">下一页</a>
+        <a th:href="@{/loginLog/pageList(pageNum=${pageInfo.pages})}">尾页</a>
+    </div>-->
+
+
+    <div class="clearfix">
+        <ul class="pagination m-b-5 pull-right">
+            <li th:if="${pageInfo.hasPreviousPage}"><a
+                    th:href="@{'/loginLog/pageList?pageNum='+${pageInfo.prePage}}"
+                    aria-label="Previous"> <i class="fa fa-angle-left"></i>&nbsp;上一页
+            </a></li>
+
+            <th:block th:each="nav : ${pageInfo.navigatepageNums}">
+                <li th:class="${nav==pageInfo.pageNum}?'active':''"><a
+                        th:href="@{'/loginLog/pageList?pageNum='+${nav}}"
+                        th:text="${nav}"></a></li>
+            </th:block>
+            <th:block th:if="${pageInfo.hasNextPage}">
+                <li><a
+                        th:href="@{'/loginLog/pageList?pageNum='+${pageInfo.nextPage}}"
+                        aria-label="Next"> 下一页&nbsp;<i class="fa fa-angle-right"></i>
+                </a></li>
+            </th:block>
+
+            <li><span th:text="'共'+${pageInfo.pages}+'页'"></span></li>
+        </ul>
+    </div>
+
+</div>
+
+</body>
+<script type="text/javascript">
+    /*
+   * 全选
+   * */
+    $(function(){
+        $("#selectAll").bind("click",function(){
+            if($(this).prop("checked")){
+                $("input[type='checkbox']").not(this).prop("checked",true); }
+            else{
+                $("input[type='checkbox']").not(this).prop("checked",false);
+            }
+        });
+    });
+    //批量删除
+    function delAll() {
+        var cks = document.getElementsByName("infoIds");
+        var infoIds = "";
+        var j = 0; //记录所选条目
+        //拼接所有的infoIds
+        for (var i = 0; i < cks.length; i++) {
+            if (cks[i].checked) {
+                infoIds += "infoIds=" + cks[i].value + "&";
+                j++;
+            }
+        }
+        var sure = window.confirm("确定要批量删除" + j + "条数据吗？");
+        if (!sure) {
+            return;
+        }
+        //去掉字符串末尾的‘&’
+        infoIds = infoIds.substring(0, infoIds.length - 1);
+        location.href = "/loginLog/deleteLoginLogs?"
+            + infoIds;
+    }
+</script>
+</html>
